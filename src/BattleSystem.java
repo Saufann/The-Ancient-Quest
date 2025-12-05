@@ -15,8 +15,6 @@ class BattleSystem {
     private boolean animating = false;
     private int damageFlash = 0;
     private int enemyDamageFlash = 0;
-    
-    // Variabel untuk menyimpan background battle saat ini
     private String currentBg;
     
     BattleSystem(GamePanel gamePanel, Player player, DatabaseManager dbManager) {
@@ -155,22 +153,14 @@ class BattleSystem {
             drawEnemyTurnIndicator(g);
         }
         
-        // --- PERBAIKAN LOGIKA POSISI HIT EFFECT ---
-        
-        // 1. Efek ketika HERO kena Hit (damageFlash)
-        // Koordinat disamakan dengan drawPlayer: x=100, y=384, size=196
         if (damageFlash > 0) {
             g.setColor(new Color(255, 0, 0, damageFlash));
-            // Menggunakan fillOval agar bulat, posisinya pas di Hero
             g.fillOval(100, 384, 196, 196); 
             damageFlash = Math.max(0, damageFlash - 15);
         }
 
-        // 2. Efek ketika ENEMY kena Hit (enemyDamageFlash)
-        // Koordinat disamakan dengan drawEnemy: x=620, y=280, size=300
         if (enemyDamageFlash > 0) {
             g.setColor(new Color(255, 100, 0, enemyDamageFlash));
-            // Menggunakan fillOval agar bulat, posisinya pas di Enemy
             g.fillOval(620, 280, 300, 300);
             enemyDamageFlash = Math.max(0, enemyDamageFlash - 15);
         }

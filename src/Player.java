@@ -21,7 +21,6 @@ public class Player extends Character {
         inventory.add(new Item("Iron Sword", ItemType.WEAPON, 10, 0, 0, 0, 100));
     }
 
-    // --- PERBAIKAN: Method untuk memulihkan status saat Restart ---
     public void resetStats() {
         this.hp = this.maxHp;
         this.mp = this.maxMp;

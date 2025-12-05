@@ -73,15 +73,12 @@ class StoryManager {
     }
     
     void showScene(int sceneIndex) {
-        // PERUBAHAN: Handler khusus untuk kembali ke Main Menu
         if (sceneIndex == -1) {
             gamePanel.returnToMainMenu();
             return;
         }
 
         if (sceneIndex >= scenes.size()) sceneIndex = 0;
-        
-        // Reset status player jika kembali ke awal (Restart)
         if (sceneIndex == 0) {
             gamePanel.player.resetStats();
         }
@@ -154,13 +151,9 @@ class StoryManager {
     
     void continueAfterBattle(boolean victory) {
         int currentIndex = scenes.indexOf(currentScene);
-        
-        // PERUBAHAN: Logika khusus untuk Boss Battle (Scene 4)
         if (currentIndex == 4 && victory) {
-            // Jika menang lawan Dark Knight, lanjut ke Scene 5 (Victory)
             showScene(5);
         } else {
-            // Logika default (lompat 2 scene untuk skip treasure scene setelah goblin) atau Game Over (6)
             showScene(victory ? currentIndex + 2 : 6);
         }
     }

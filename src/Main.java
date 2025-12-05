@@ -6,7 +6,6 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         
-        // --- PENTING: Memuat aset sebelum GamePanel dibuat ---
         AssetManager.loadAssets(); 
         
         GamePanel gamePanel = new GamePanel();

@@ -11,7 +11,6 @@ public class DatabaseManager {
     
     private void initDatabase() {
         try {
-            // Memuat driver SQLite
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(DB_URL);
             createTables();
@@ -24,8 +23,6 @@ public class DatabaseManager {
     
     private void createTables() {
         try (Statement stmt = connection.createStatement()) {
-            
-            // Syntax SQLite menggunakan INTEGER PRIMARY KEY AUTOINCREMENT
             String createSaveTable = 
                 "CREATE TABLE IF NOT EXISTS save_data (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -69,7 +66,6 @@ public class DatabaseManager {
             stmt.execute(createInventoryTable);
             stmt.execute(createStatsTable);
             
-            // Inisialisasi baris statistik jika belum ada
             String initStats = "INSERT INTO statistics (id) SELECT 1 WHERE NOT EXISTS (SELECT 1 FROM statistics)";
             stmt.execute(initStats);
             
@@ -89,7 +85,6 @@ public class DatabaseManager {
             
             PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, saveName);
-            // Menggunakan akses field langsung (public) sesuai class Player.java
             pstmt.setInt(2, player.level);
             pstmt.setInt(3, player.hp);
             pstmt.setInt(4, player.maxHp);
@@ -130,7 +125,6 @@ public class DatabaseManager {
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, saveId);
-            // Menggunakan akses field langsung (public) sesuai class Item.java
             pstmt.setString(2, item.name);
             pstmt.setString(3, item.type.toString());
             pstmt.setInt(4, item.attackBonus);
@@ -156,7 +150,7 @@ public class DatabaseManager {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 SaveData saveData = new SaveData();
-                saveData.saveId = rs.getInt("id"); // Penting: Set ID
+                saveData.saveId = rs.getInt("id"); 
                 saveData.saveName = rs.getString("save_name");
                 saveData.level = rs.getInt("player_level");
                 saveData.hp = rs.getInt("player_hp");
@@ -235,8 +229,6 @@ public class DatabaseManager {
         if (connection == null) return;
         
         try {
-            // SQLite tidak mendukung sintaks "field = field + ?" di beberapa versi lama JDBC
-            // Tapi syntax standar ini harusnya aman.
             String sql = "UPDATE statistics SET " + statType + " = " + statType + " + ? WHERE id = 1";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, value);
